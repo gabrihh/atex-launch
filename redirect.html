@@ -1,0 +1,40 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a1f27;
+    font-family: "Roboto", sans-serif;
+  }
+  h1 {
+    color: #3b82f6;
+    font-size: 3em;
+  }
+</style>
+</head>
+<body>
+<script>
+fetch('maintence.txt?v=' + Date.now())
+  .then(response => response.text())
+  .then(text => {
+    if (text.trim() === "1") {
+      document.body.innerHTML = '<h1>Maintenance</h1>';
+    } else {
+      const url = "https://atexlive.web.app/auth";
+      location.replace(url);
+    }
+  })
+  .catch(err => {
+    const url = "https://atexlive.web.app/auth";
+    location.replace(url);
+  });
+</script>
+</body>
+</html>
