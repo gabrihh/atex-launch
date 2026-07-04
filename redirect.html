@@ -21,20 +21,42 @@
 </head>
 <body>
 <script>
-fetch('maintence.txt?v=' + Date.now())
-  .then(response => response.text())
-  .then(text => {
-    if (text.trim() === "1") {
-      document.body.innerHTML = '<h1>Maintenance</h1>';
-    } else {
-      const url = "https://atexlive.web.app/auth";
-      location.replace(url);
+async function start() {
+  try {
+    const maint = (await (await fetch('maintence.txt')).text()).trim();
+    const feature = (await (await fetch('newFeatureTest.txt')).text()).trim();
+
+    const hasFeature = feature.length > 0;
+
+    let androidHasFeature = false;
+
+    if (hasFeature && window.Android && Android.getSupportedFeatures) {
+      try {
+        androidHasFeature =
+          Android.getSupportedFeatures().includes(feature);
+      } catch (e) {
+        androidHasFeature = false;
+      }
     }
-  })
-  .catch(err => {
-    const url = "https://atexlive.web.app/auth";
-    location.replace(url);
-  });
-</script>
+
+    if (hasFeature && androidHasFeature) {
+      location.replace("https://atexlive.web.app/auth");
+      return;
+    }
+
+    if (maint === "1") {
+      document.body.innerHTML = "<h1>Maintenance</h1>";
+      return;
+    }
+
+    location.replace("https://atexlive.web.app/auth");
+
+  } catch (e) {
+    location.replace("https://atexlive.web.app/auth");
+  }
+}
+
+start();
+      </script>
 </body>
 </html>
