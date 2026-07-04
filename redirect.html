@@ -20,7 +20,7 @@
 </style>
 </head>
 <body>
-<script>
+<script><script>
 async function start() {
   try {
     const maint = (await (await fetch('maintence.txt')).text()).trim();
@@ -30,7 +30,7 @@ async function start() {
 
     let androidHasFeature = false;
 
-    if (hasFeature && window.Android && Android.getSupportedFeatures) {
+    if (hasFeature && window.Android?.getSupportedFeatures) {
       try {
         androidHasFeature =
           Android.getSupportedFeatures().includes(feature);
@@ -39,24 +39,28 @@ async function start() {
       }
     }
 
-    if (hasFeature && androidHasFeature) {
+    if (!hasFeature) {
+      if (maint === "1") {
+        document.body.innerHTML = "<h1>Maintenance</h1>";
+        return;
+      }
+
       location.replace("https://atexlive.web.app/auth");
       return;
     }
 
-    if (maint === "1") {
-      document.body.innerHTML = "<h1>Maintenance</h1>";
+    if (androidHasFeature) {
+      location.replace("https://atexlive.web.app/auth");
       return;
     }
 
-    location.replace("https://atexlive.web.app/auth");
-
+    document.body.innerHTML = "<h1>Maintenance</h1>";
   } catch (e) {
     location.replace("https://atexlive.web.app/auth");
   }
 }
 
 start();
-      </script>
+  </script>
 </body>
 </html>
