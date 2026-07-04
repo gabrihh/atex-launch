@@ -30,10 +30,10 @@ async function start() {
 
     let androidHasFeature = false;
 
-    if (hasFeature && window.Android?.getSupportedFeatures) {
+    if (hasFeature && window.AndroidBridge?.getSupportedFeatures) {
       try {
         androidHasFeature =
-          Android.getSupportedFeatures().includes(feature);
+          AndroidBridge.getSupportedFeatures().includes(feature);
       } catch (e) {
         androidHasFeature = false;
       }
